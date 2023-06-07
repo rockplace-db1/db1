@@ -13,4 +13,6 @@ select schemaname, relname
 , to_char(last_analyze, 'YYYY-MM-DD') AS last_analyze
 , analyze_count
 from pg_stat_user_tables
-order by schemaname, relname ;
+--where n_dead_tup > 0
+order by n_dead_tup desc, n_live_tup desc ;
+--, schemaname, relname ;
