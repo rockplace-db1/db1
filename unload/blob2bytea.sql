@@ -7,7 +7,7 @@ set pagesize 0
 set LineSize 32767
 set feedback off
 set serveroutput on
-spool table21_col02_79.sql
+spool table11_col02_79.sql
 DECLARE
   n_col01 NUMBER ;
 
