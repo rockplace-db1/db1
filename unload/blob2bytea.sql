@@ -23,13 +23,13 @@ BEGIN
   DBMS_output.enable(NULL) ;
   DBMS_output.put_line('UPDATE table21 SET col02 = ''\x'''); 
   LOOP
-    DBMS_LOB.Read(blob01, n_amount, n_offset, r_buf) ;
+    DBMS_LOB.read(blob01, n_amount, n_offset, r_buf) ;
     n_offset := n_offset + n_amount ;
     vc_str := RawToHex(r_buf) ;
     DBMS_output.put_line(''''||vc_str||'''') ;
     EXIT WHEN n_offset > n_length ;
   END LOOP ;
-  DBMS_LOB.Close(blob01) ;
+  DBMS_LOB.close(blob01) ;
   DBMS_output.put_line('WHERE col01 = '||n_col01||' ;') ;
 EXCEPTION
   WHEN OTHERS THEN 
