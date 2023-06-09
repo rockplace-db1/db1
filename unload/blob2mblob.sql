@@ -4,7 +4,7 @@
 -- 23 Apr 2023 Created, BLOB to (MEDIUM|LONG)BLOB
 --
 set pagesize 0
-set LineSize 92
+set LineSize 82
 set feedback off
 set serveroutput on
 spool table11_col02_100.sql
