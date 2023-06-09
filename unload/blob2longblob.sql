@@ -2,10 +2,11 @@
 -- Rockplace, internal use only
 --
 -- 09 June 2023 Set LineSize 32766 = vc_str + 2
--- 23 Apr 2023  Created, BLOB to (MEDIUM|LONG)BLOB
+-- 23 Apr 2023  Created, BLOB to LongBLOB
 --
 set pagesize 0
 set LineSize 32766
+set trimSpool on
 set feedback off
 set serveroutput on
 spool table11_col02_101.sql
