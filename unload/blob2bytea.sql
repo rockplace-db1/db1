@@ -5,6 +5,7 @@
 --
 set pagesize 0
 set LineSize 32767
+set trimSpool on
 set feedback off
 set serveroutput on
 spool table11_col02_79.sql
