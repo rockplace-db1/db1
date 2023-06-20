@@ -1,0 +1,48 @@
+#
+#	Rockplace, internal use only
+#
+#	20230615 Created
+#	         Used /bin not /usr/bin to support RHEL 6
+#
+
+#
+# Generic
+#
+PS_CMD=/bin/ps
+DF_CMD=/bin/df
+CAT_CMD=/bin/cat
+UNAME_CMD=/bin/uname
+DATE_CMD=/bin/date
+DATE_FORMAT_STR="%Y-%m-%d (%a) %H:%M:%S GMT%z (%Z) (%s)"
+
+#
+# Port-specific
+#
+OS_NAME=`$UNAME_CMD -s`
+case "$OS_NAME" in
+'Linux')
+  PS_CMD_LINE="$PS_CMD -e -o tty,pid,ppid,nlwp,psr,class,pri,stat,sz,vsz,start_time,etime,cputime,args --cols 255"
+  DF_CMD_LINE="$DF_CMD -Th"
+  ETC_RELEASE=/etc/redhat-release
+  ;;
+*)
+  printf "\nThis script(%s) do not support %s.\n" "$0" "$OS_NAME"
+  exit 0
+  ;;
+esac
+
+$DATE_CMD +"$DATE_FORMAT_STR"
+$UNAME_CMD -a
+if [ -f "$ETC_RELEASE" ] ; 
+then
+  $CAT_CMD "$ETC_RELEASE"
+else
+  printf "\n%s file is not found.\n" "$ETC_RELEASE"
+  exit 0
+fi
+
+printf "\n%s\n" "$DF_CMD_LINE"
+$DF_CMD_LINE
+
+printf "\n%s\n" "$PS_CMD_LINE"
+$PS_CMD_LINE
