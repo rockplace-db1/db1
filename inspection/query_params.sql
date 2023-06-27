@@ -4,6 +4,8 @@
 SELECT current_timestamp
 , current_database()
 ;
+SELECT version()
+;
 
 SELECT name, setting
 FROM pg_settings
@@ -43,8 +45,26 @@ WHERE name in
 SELECT name, setting
 FROM pg_settings
 WHERE name in 
+( 'random_page_cost'
+, 'effective_cache_size'
+)
+;
+
+SELECT name, setting
+FROM pg_settings
+WHERE name in 
 ( 'log_destination'
 , 'logging_collector'
+)
+;
+
+SELECT name, setting
+FROM pg_settings
+WHERE name in 
+( 'client_min_messages'
+, 'log_min_messages'
+, 'log_min_error_statement'
+, 'log_min_duration_statement'
 )
 ;
 
