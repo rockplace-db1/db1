@@ -1,0 +1,33 @@
+#
+#  27 June 2023 Added FORMAT_STR
+#  21 June 2023 Replaced /usr/bin to /bin to support RHEL 6
+#  13 June 2023 Created
+#
+#
+#  Configuration
+#
+#FORMAT_STR=%g%m%d
+FORMAT_STR=%Y%m%d
+
+
+DATE_CMD=/bin/date
+MKDIR_CMD=/bin/mkdir
+SUBDIR_NAME=`$DATE_CMD +$FORMAT_STR`
+CMD_LINE="$MKDIR_CMD $SUBDIR_NAME"
+
+if [ ! -d "$SUBDIR_NAME" ] ;
+then
+  printf "\nSubdirectory %s does not exist " "$SUBDIR_NAME"
+  printf "\nin the current working directory %s" "$PWD"
+  printf "\n\nChange to an appropriate directory \nthen create a subdirectory as follows:\n%s\n" "$CMD_LINE"
+  exit 0
+fi
+
+printf "\nSubdirectory %s exists " "$SUBDIR_NAME"
+printf "\nin the current working directory %s" "$PWD"
+if [ -w "$SUBDIR_NAME" ] ;
+then
+  printf " and it is writable."
+else
+  printf " but it is not writable."
+fi
