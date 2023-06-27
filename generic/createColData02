@@ -1,0 +1,35 @@
+#
+#  27 June 2023 Cheeyoung O Created
+#
+declare -A a_freq
+
+#
+#  Configuration
+#
+#COL_VALUES="V1 V2 V3"
+#a_freq[V1]="1"
+#a_freq[V2]="4"
+#a_freq[V3]="9"
+COL_VALUES="P U C"
+a_freq[P]="60"
+a_freq[U]="30"
+a_freq[C]="10"
+
+EXPR_CMD=/bin/expr
+NUM_ROWS=0
+for cv in $COL_VALUES ; 
+do
+  #printf "%s %s\n" "$cv" "$NUM_ROWS"
+
+  NUM_ROWS=`$EXPR_CMD $NUM_ROWS + ${a_freq[$cv]}`
+done
+#printf "%s\n" "$NUM_ROWS"
+
+for cv in $COL_VALUES ; 
+do
+  for ((i = 1; i <= ${a_freq[$cv]}; i++))
+  do
+    printf "%s\n" $cv
+  done
+done
+
