@@ -5,9 +5,12 @@
 \connect :PG_DB_NAME
 
 -- tables
-SELECT relid
-, schemaname, relname
+SELECT relid, schemaname, relname
 , n_live_tup, n_dead_tup
+, last_analyze, analyze_count
+, last_vacuum, vacuum_count
+, last_autoanalyze, autoanalyze_count
+, last_autovacuum, autovacuum_count
 FROM pg_stat_all_tables
 WHERE n_dead_tup > 0
 ORDER BY n_live_tup 
