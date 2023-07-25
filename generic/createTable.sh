@@ -4,7 +4,7 @@
 #  20230502 Cheeyoung O  Created for PG, MySQL, and Oracle
 #
 TAB_NAME="table11"
-NUM_ROWS="100"  # Minimum number of rows is 1
+NUM_ROWS="100"  # Minimum number of rows is 0
 NUM_COLS="1000"  # Minimum number of columns is 2 and Max. is 1000
 COL_DATA_TYPE="CHAR(2000)"
 COL_DATA="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
