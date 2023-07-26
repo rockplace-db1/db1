@@ -4,7 +4,7 @@
 declare -A a_freq
 
 #
-#  Configuration
+#  Configuration, Histogram
 #
 #COL_VALUES="V1 V2 V3"
 #a_freq[V1]="1"
@@ -17,19 +17,18 @@ a_freq[C]="10"
 
 EXPR_CMD=/bin/expr
 NUM_ROWS=0
-for cv in $COL_VALUES ; 
+for CV in $COL_VALUES ; 
 do
-  #printf "%s %s\n" "$cv" "$NUM_ROWS"
+  #printf "%s %s\n" "$CV" "$NUM_ROWS"
 
-  NUM_ROWS=`$EXPR_CMD $NUM_ROWS + ${a_freq[$cv]}`
+  NUM_ROWS=`$EXPR_CMD $NUM_ROWS + ${a_freq[$CV]}`
 done
 #printf "%s\n" "$NUM_ROWS"
 
-for cv in $COL_VALUES ; 
+for CV in $COL_VALUES ; 
 do
-  for ((i = 1; i <= ${a_freq[$cv]}; i++))
+  for ((i = 1; i <= ${a_freq[$CV]}; i++))
   do
-    printf "%s\n" $cv
+    printf "%s\n" "$CV"
   done
 done
-
