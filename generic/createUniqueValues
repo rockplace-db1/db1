@@ -1,0 +1,34 @@
+#
+#  26 July 2023 Cheeyoung O
+#               Start with NUM_START_WITH, incremented by NUM_INC_BY
+#  26 June 2023 Cheeyoung O Created
+#               Start with 1, incremented by 1
+#
+
+#
+#  Configuration
+#
+NUM_ROWS=10
+#NUM_ROWS=100000000  # 1 hundred million
+COL_WIDTH=8  # min. 2, 8 to have 1 hundred million rows
+
+# unexpected result if < 0 it looks an address is written instead of the value
+NUM_START_WITH="0"  
+NUM_INC_BY="3"
+
+
+FORMAT_STR="%0$COL_WIDTH"
+FORMAT_STR+="X\n"
+EXPR_CMD=/bin/expr
+
+#
+#  For debugging
+#
+#printf "%s\n" "$FORMAT_STR"
+
+COL_VALUE="$NUM_START_WITH"
+for ((i = 1; i <= $NUM_ROWS; i++))
+do
+  printf "$FORMAT_STR" "$COL_VALUE"
+  COL_VALUE=`$EXPR_CMD $COL_VALUE + $NUM_INC_BY`
+done
