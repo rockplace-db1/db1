@@ -1,6 +1,7 @@
 #
 #  Rockplace, internal use only
 #
+#  01 Aug 2023  Added IPCS_CMD and IPCS_M_CMD_LINE_1
 #  21 June 2023  Created
 #	         Used /bin not /usr/bin to support RHEL 6
 #
@@ -9,6 +10,7 @@
 # Generic
 #
 PS_CMD=/bin/ps
+IPCS_CMD=/bin/ipcs
 DF_CMD=/bin/df
 CAT_CMD=/bin/cat
 UNAME_CMD=/bin/uname
@@ -27,6 +29,7 @@ case "$OS_NAME" in
   PS_CMD_LINE_1="$PS_CMD -e -o tty,pid,ppid,euid,euser,egid,egroup,start_time,etime,cputime,args --cols 255"
   PS_CMD_LINE_2="$PS_CMD -e -o tty,pid,ppid,nlwp,stat,psr,class,pri,etime,cputime,args --cols 255"
   PS_CMD_LINE_3="$PS_CMD -e -o tty,pid,ppid,nlwp,sz,vsz,etime,cputime,args --cols 255"
+  IPCS_M_CMD_LINE_1="$IPCS_CMD -m"
   DF_CMD_LINE="$DF_CMD -Th"
   ETC_RELEASE=/etc/redhat-release
   ;;
@@ -45,6 +48,11 @@ else
   printf "\n%s file is not found.\n" "$ETC_RELEASE"
   exit 0
 fi
+
+printf "\n"
+$DATE_CMD +"$DATE_FORMAT_STR"
+printf "%s\n" "$IPCS_M_CMD_LINE_1"
+$IPCS_M_CMD_LINE_1
 
 printf "\n"
 $DATE_CMD +"$DATE_FORMAT_STR"
