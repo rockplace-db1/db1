@@ -12,11 +12,13 @@
 PS_CMD=/bin/ps
 IPCS_CMD=/bin/ipcs
 DF_CMD=/bin/df
+VMSTAT_CMD=/bin/vmstat
+DATE_CMD=/bin/date
 CAT_CMD=/bin/cat
 UNAME_CMD=/bin/uname
-DATE_CMD=/bin/date
+
 DATE_FORMAT_STR="%Y-%m-%d (%a) %H:%M:%S GMT%z (%Z) (%s)"
-VMSTAT_CMD=/bin/vmstat
+IPCS_M_CMD_LINE_1="$IPCS_CMD -m"
 VMSTAT_CMD_LINE_1="$VMSTAT_CMD -s"
 VMSTAT_CMD_LINE_2="$VMSTAT_CMD -w"
 
@@ -29,7 +31,6 @@ case "$OS_NAME" in
   PS_CMD_LINE_1="$PS_CMD -e -o tty,pid,ppid,euid,euser,egid,egroup,start_time,etime,cputime,args --cols 255"
   PS_CMD_LINE_2="$PS_CMD -e -o tty,pid,ppid,nlwp,stat,psr,class,pri,etime,cputime,args --cols 255"
   PS_CMD_LINE_3="$PS_CMD -e -o tty,pid,ppid,nlwp,sz,vsz,etime,cputime,args --cols 255"
-  IPCS_M_CMD_LINE_1="$IPCS_CMD -m"
   DF_CMD_LINE="$DF_CMD -Th"
   ETC_RELEASE=/etc/redhat-release
   ;;
