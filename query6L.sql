@@ -1,35 +1,54 @@
 --
--- 27 July 2023 Created at 18:01
+-- 02 Aug 2023 Created, pg_locks
 --
-\set PV_DB_NAME 'template1'
-\set PV_ID_ROLE 10
+\set PV_DB_NAME pagila
+\set PV_DB_OID 16620
+\set PV_TAB_OID 16740
+\set PV_OS_PID 24228
 
 SELECT current_timestamp
 , current_database()
 ;
 
-PREPARE select11(varchar) AS
-SELECT datname
-, (aclexplode(datacl)).grantor
-, (aclexplode(datacl)).grantee
-, (aclexplode(datacl)).privilege_type
-, (aclexplode(datacl)).is_grantable
+SELECT locktype, mode, pid, granted, waitstart
+, database, relation, page, tuple
+FROM pg_locks
+WHERE mode LIKE '%ExclusiveLock'
+--WHERE mode in ('', 'RowExclusiveLock')
+AND database = :PV_DB_OID
+;
+
+SELECT locktype, mode, pid, granted, waitstart
+, database, relation, page, tuple
+FROM pg_locks
+WHERE database = :PV_DB_OID
+;
+
+SELECT l.locktype, l.mode, l.pid, l.granted, l.waitstart
+, l.database, l.relation, l.page, l.tuple, c.relname
+FROM pg_locks l
+, pg_class c
+WHERE l.relation = c.oid
+AND mode LIKE '%ExclusiveLock'
+AND database = :PV_DB_OID
+;
+
+SELECT l.locktype, l.mode, l.pid, l.granted, l.waitstart
+, l.database, l.relation, l.page, l.tuple, c.relname
+FROM pg_locks l
+, pg_class c
+WHERE l.relation = c.oid
+AND database = :PV_DB_OID
+;
+
+SELECT oid, relname, relkind, reltablespace, relfilenode
+FROM pg_class
+WHERE oid = :PV_TAB_OID
+;
+
+SELECT pg_blocking_pids(:PV_OS_PID) ;
+
+SELECT oid, datname
 FROM pg_database
-WHERE datname = $1
+WHERE datname = :'PV_DB_NAME'
 ;
-
-PREPARE select21(int) AS
-SELECT oid, rolname
-, rolsuper, rolcanlogin
-FROM pg_roles
-WHERE oid = $1
-;
-
-EXECUTE select11(:'PV_DB_NAME') ;
-SELECT oid, rolname
-, rolsuper, rolcanlogin
-FROM pg_roles
-;
-
-DEALLOCATE select11 ;
-DEALLOCATE select21 ;
