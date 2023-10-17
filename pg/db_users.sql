@@ -21,12 +21,15 @@ FROM pg_stat_activity
 ;
 
 SELECT usename, usesysid, datname, datid
-, state, state_change, wait_event_type, wait_event
+, state, state_change
+--, wait_event_type
+, wait_event
 , xact_start
 , application_name
-, query_id, query_start
+--, query_id, query_start
 , client_addr, client_port
-, pid, backend_type, backend_start
+, pid
+--, backend_type, backend_start
 FROM pg_stat_activity
 WHERE state is NOT NULL
 ;
