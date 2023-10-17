@@ -15,9 +15,9 @@ select d.datname, d.oid
 , d.datallowconn, d.datconnlimit
 from pg_database d ;
 
-\l+
+--\l+
 
-select *
-from pg_tablespace ;
+--select *
+--from pg_tablespace ;
 
-\db+
+--\db+
