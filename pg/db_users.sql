@@ -22,8 +22,7 @@ FROM pg_stat_activity
 
 SELECT usename, usesysid, datname, datid
 , state, state_change
---, wait_event_type
-, wait_event
+--, wait_event_type, wait_event
 , xact_start
 , application_name
 --, query_id, query_start
