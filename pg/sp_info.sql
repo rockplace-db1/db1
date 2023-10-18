@@ -19,7 +19,8 @@ SELECT current_timestamp, pg_backend_pid() ;
 SELECT current_user, current_database() ;
 SELECT version() ;
 
-SELECT r.pnum, r.pname, r.pvalue AS "Recommended Value"
+--SELECT r.pnum,
+SELECT r.pname, r.pvalue AS "Recommended Value"
 , c.setting AS "Current Value", c.unit
 --, c.context
 FROM 
@@ -33,10 +34,10 @@ FROM
 , (-47, 'max_wal_senders', '')
 , (-39, 'checkpoint_timeout', '')
 , (-38, 'checkpoint_warning', '')
-, (-37, 'checkpoint_completion_target', '0.5 - 0.9')
+, (-37, 'checkpoint_completion_target', 'between 0.5 and 0.9')
 , (-36, 'max_wal_size', '(3 * checkpoint_segments) * 16MB < free space')
 , (-35, 'checkpoint_segments', '')
-, (-34, 'min_wal_size', '> 80MB')
+, (-34, 'min_wal_size', '> 80MB (default)')
 , (-29, 'archive_mode', 'on')
 , (-28, 'archive_command', 'cp %p /.../%f')
 , (1, 'data_directory', '')
@@ -48,13 +49,14 @@ FROM
 , (7, 'log_filename', '')
 , (11, 'listen_addresses', '')
 , (12, 'max_connections', '')
-, (21, 'shared_buffers', 'between 25% and 40%')
-, (22, 'work_mem', 'the formular')
-, (23, 'maintenance_work_mem', '256 - 512MB')
+, (21, 'shared_buffers', 'between 25% and 40% of the memory')
+, (22, 'work_mem', 'max_connections x work_mem + shared_buffers < RAM')
+, (23, 'maintenance_work_mem', 'between 256 and 512 MB, > work_mem')
+, (24, 'huge_pages', 'off')
 , (31, 'compute_query_id', '')
-, (32, 'random_page_cost', '')
+, (32, 'random_page_cost', 'between 2 and 3')
 , (33, 'seq_page_cost', '')
-, (34, 'effective_cache_size', '75%')
+, (34, 'effective_cache_size', '75% of the memory')
 , (41, 'log_min_messages', 'warning')
 , (42, 'client_min_messages', 'notice')
 , (43, 'logging_collector', 'on')
@@ -64,7 +66,7 @@ FROM
 , (51, 'deadlock_timeout', '')
 , (52, 'log_lock_waits', '')
 , (71, 'log_min_error_statement', 'error')
-, (72, 'log_min_duration_statement', '< 5000ms')
+, (72, 'log_min_duration_statement', '< 5000 ms')
 , (81, 'track_activities', '')
 , (82, 'track_activity_query_size', '')
 , (83, 'track_counts', '')
@@ -74,8 +76,9 @@ FROM
 ) AS r (pnum, pname, pvalue)  -- (r)ecommended parameters
 INNER JOIN pg_settings c  -- (c)urrrent settings
 ON r.pname = c.name
+WHERE r.pvalue != ''
 ORDER BY r.pnum
-;  -- local, host in pg_hba.conf, random_page_cost=2-3
+;
 
 show shared_buffers ;
 show work_mem ;
