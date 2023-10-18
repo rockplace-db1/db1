@@ -33,10 +33,10 @@ FROM
 , (-47, 'max_wal_senders', '')
 , (-39, 'checkpoint_timeout', '')
 , (-38, 'checkpoint_warning', '')
-, (-37, 'checkpoint_completion_target', '')
-, (-36, 'max_wal_size', '(3 * checkpoint_segments) * 16MB')
+, (-37, 'checkpoint_completion_target', '0.5 - 0.9')
+, (-36, 'max_wal_size', '(3 * checkpoint_segments) * 16MB < free space')
 , (-35, 'checkpoint_segments', '')
-, (-34, 'min_wal_size', '')
+, (-34, 'min_wal_size', '> 80MB')
 , (-29, 'archive_mode', 'on')
 , (-28, 'archive_command', 'cp %p /.../%f')
 , (1, 'data_directory', '')
@@ -49,22 +49,22 @@ FROM
 , (11, 'listen_addresses', '')
 , (12, 'max_connections', '')
 , (21, 'shared_buffers', 'between 25% and 40%')
-, (22, 'work_mem', '')
-, (23, 'maintenance_work_mem', '')
+, (22, 'work_mem', 'the formular')
+, (23, 'maintenance_work_mem', '256 - 512MB')
 , (31, 'compute_query_id', '')
 , (32, 'random_page_cost', '')
 , (33, 'seq_page_cost', '')
-, (34, 'effective_cache_size', '')
-, (41, 'log_min_messages', '')
-, (42, 'client_min_messages', '')
-, (43, 'logging_collector', '')
+, (34, 'effective_cache_size', '75%')
+, (41, 'log_min_messages', 'warning')
+, (42, 'client_min_messages', 'notice')
+, (43, 'logging_collector', 'on')
 , (44, 'log_destination', '')
 , (45, 'log_line_prefix', '')
 , (46, 'log_timezone', '')
 , (51, 'deadlock_timeout', '')
 , (52, 'log_lock_waits', '')
-, (71, 'log_min_error_statement', '')
-, (72, 'log_min_duration_statement', '')
+, (71, 'log_min_error_statement', 'error')
+, (72, 'log_min_duration_statement', '< 5000ms')
 , (81, 'track_activities', '')
 , (82, 'track_activity_query_size', '')
 , (83, 'track_counts', '')
@@ -75,7 +75,7 @@ FROM
 INNER JOIN pg_settings c  -- (c)urrrent settings
 ON r.pname = c.name
 ORDER BY r.pnum
-;
+;  -- local, host in pg_hba.conf, random_page_cost=2-3
 
 show shared_buffers ;
 show work_mem ;
