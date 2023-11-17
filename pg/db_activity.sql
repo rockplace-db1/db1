@@ -9,15 +9,23 @@ SELECT current_timestamp, current_database(), pg_backend_pid() ;
 SELECT name, setting, unit, context
 FROM pg_settings
 WHERE name IN
-( 'compute_query_id'
+( 'compute_query_id', 'track_io_timing'
 , 'track_activities', 'track_activity_query_size'
 , 'log_hostname', 'max_connections'
 )
 ;
 
-\echo Current database processes and sessions statistics 
+\echo Current database processes and I/O statistics 
 \echo
 SELECT datname, numbackends 
+, blk_read_time, blk_write_time
+, stats_reset
+FROM pg_stat_database
+;
+
+\echo Session statistics 
+\echo
+SELECT datname, idle_in_transaction_time, active_time, session_time
 , sessions_killed, sessions_fatal, sessions_abandoned
 , sessions AS sessions_established
 FROM pg_stat_database
