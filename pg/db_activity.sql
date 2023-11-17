@@ -15,9 +15,18 @@ WHERE name IN
 )
 ;
 
+\echo SQL statistics
+\echo
+SELECT datname, xact_rollback, xact_commit
+, tup_updated, tup_deleted, tup_inserted
+, tup_returned, tup_fetched
+FROM pg_stat_database
+;
+
 \echo Current database processes and I/O statistics 
 \echo
 SELECT datname, numbackends 
+, temp_files, temp_bytes
 , blk_read_time, blk_write_time
 , stats_reset
 FROM pg_stat_database
