@@ -32,7 +32,7 @@ select d.datname
 --, d.datallowconn, d.datconnlimit
 from pg_database d
 where d.datname not in ('edb', 'postgres', 'template1', 'template0')
-and d.datistemplate <> true
+and d.datistemplate = false
 ) d ;
 
 --\l+
