@@ -111,7 +111,10 @@ countMsgBySev()
 
 printBanner()
 {
-  $PRINTF_CMD "Created only for EDB Postgres Advanced Server (EPAS) v10 or above\nand Red hat Enterprise Linux (RHEL) 7 or above\n\n"
+  $PRINTF_CMD "Rockplace, inc. \n\n\
+Created for POSCO \n\
+Created to be used with EDB Postgres Advanced Server (EPAS) v10 or above\n\
+and Red hat Enterprise Linux (RHEL) 7 or above\n\n"
 }
 
 searchErrForDeadlockPG()
@@ -152,11 +155,11 @@ searchErrForDeadlockPG()
 # main
 # 
 printBanner
-$PRINTF_CMD "\nTrying to search LOG:  ...\n"
+$PRINTF_CMD "\nTrying to search LOG: in %s ...\n" "$ERR_LOG_FILES"
 searchLogForLockwaits
 searchLogForExectime
 searchLogForTempfile
 countMsgBySev
-$PRINTF_CMD "\nTrying to search ERROR:  ...\n"
+$PRINTF_CMD "\nTrying to search ERROR: in %s ...\n" "$ERR_LOG_FILES"
 searchErrForDeadlockPG
 #searchErrForDeadlockEPAS
