@@ -2,6 +2,9 @@
 -- 07 July 24 Created
 -- 
 \conninfo
+\echo ****************************************
+\echo * User Tables by Age
+\echo ****************************************
 SELECT c.relnamespace::regnamespace, c.relname
 --, c.oid
 , GREATEST(age(t.c_xid), age(t.t_xid)) AS age
