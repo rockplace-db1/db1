@@ -67,7 +67,7 @@ SELECT schemaname AS schema
 , CASE
     WHEN b = 'M' THEN 'Manual'
     WHEN b = 'A' THEN 'Auto'
-    END AS collect_by
+    END AS done_by
 --, n_dead_tup AS dead_tuples
 --, n_live_tup AS live_tuples
 FROM u
@@ -116,7 +116,7 @@ SELECT schemaname AS schema
 , CASE
     WHEN b = 'M' THEN 'Manual'
     WHEN b = 'A' THEN 'Auto'
-    END AS collect_by
+    END AS done_by
 , pg_relation_size(relid) AS table_size
 FROM u
 ORDER BY dead_tuples DESC
@@ -125,7 +125,7 @@ ORDER BY dead_tuples DESC
 LIMIT :N_ROWS_RETURNED
 ;
 \echo ----------------------------------------------------------------------
-\echo * User tables by dead tuples per live ones in percent (Top :N_ROWS_RETURNED)
+\echo * User tables by dead tuples per live ones (Top :N_ROWS_RETURNED)
 \echo ----------------------------------------------------------------------
 WITH u AS
 ( SELECT relid
@@ -160,7 +160,7 @@ WITH u AS
 )
 SELECT schemaname AS schema
 , relname AS table_name
-, TO_CHAR(n_dead_tup::numeric / n_live_tup * 100, '999,990D999') AS percent
+, TO_CHAR(n_dead_tup::numeric / n_live_tup, '990D999') AS ratio
 , n_dead_tup AS dead_tuples
 , n_live_tup AS live_tuples
 --, t AS time_collected
@@ -168,7 +168,7 @@ SELECT schemaname AS schema
 , pg_relation_size(relid) AS table_size
 FROM u
 WHERE n_live_tup > 0  -- ERROR:  division by zero
-ORDER BY percent DESC
+ORDER BY ratio DESC
 , dead_tuples DESC
 , live_tuples DESC
 , table_size DESC
