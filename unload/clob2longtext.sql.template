@@ -1,0 +1,57 @@
+-- 
+-- 05 Nov 24 Skip empty CLOB
+-- 08 Oct 24 Added n_amount_max constant
+-- 06 Oct 24 Added outer loop for all rows in a table
+-- 
+set serveroutput on
+set linesize 32767
+set trimSpool on
+set pagesize 0
+set feedback off
+spool update_clobs.sql
+DECLARE
+  vc_col01 VARCHAR(32767) ;
+  --n_col01 NUMBER ;
+  clob01 CLOB ;
+  n_chars NUMBER ;  -- num. of chars in a CLOB 
+  n_offset NUMBER := 1 ;
+  n_amount NUMBER ;
+  n_amount_max CONSTANT NUMBER := 5460;  -- in chars = 32,767 / 2 / 3 bytes for UTF8 and rawtohex
+  vc_buf VARCHAR2(32767) ;  -- max. 5460 chars
+  -- source: PK col. name, CLOB col. name, and table name
+  CURSOR cursor01 IS 
+    SELECT <pk col> AS col01
+    , <clob col> AS col02
+    , DBMS_LOB.getLength(<clob col>) AS n_chars
+    FROM <clob table> ;
+BEGIN
+  -- target: table name, CLOB col. name, and PK col. name
+  DBMS_output.put_line('PREPARE pstmt01 FROM ''UPDATE <clob table> SET <clob col> = UNHEX(?) WHERE <pk col> = ?'' ;') ;
+  OPEN cursor01 ;
+  LOOP
+    FETCH cursor01 INTO vc_col01, clob01, n_chars ;
+    EXIT WHEN cursor01%NOTFOUND ;
+    DBMS_output.put_line('set @v2 = '''||vc_col01||''' ;') ;  -- VARCHAR2
+    --DBMS_output.put_line('set @v2 = '||TO_CHAR(vc_col01)||' ;') ;  -- NUMBER
+    DBMS_output.put_line('set @v1 = '''' ') ;
+    IF n_chars > 0 THEN
+      DBMS_LOB.open(clob01, DBMS_LOB.LOB_READONLY) ; 
+      n_offset := 1 ;
+      n_amount := n_amount_max ;
+      LOOP 
+        DBMS_LOB.read(clob01, n_amount, n_offset, vc_buf) ;
+        n_offset := n_offset + n_amount ;
+        DBMS_output.put_line(''''||RawToHex(UTL_raw.cast_to_raw(vc_buf))||'''') ;
+        EXIT WHEN n_offset > n_chars ;
+      END LOOP ;
+      DBMS_LOB.close(clob01) ;
+    END IF ;
+    DBMS_output.put_line(';') ; 
+    DBMS_output.put_line('EXECUTE pstmt01 USING @v1, @v2 ;') ;
+  END LOOP ;
+  DBMS_output.put_line('DEALLOCATE PREPARE pstmt01 ;') ;
+END ;
+/
+spool off
+set serveroutput off
+set feedback on
