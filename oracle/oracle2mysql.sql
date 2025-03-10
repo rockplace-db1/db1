@@ -21,13 +21,6 @@ set LineSize 80
 -- 
 -- Max. Length of an identifier is 30 chars.
 -- 
---variable vc_schema_name VARCHAR2(30) ;
---BEGIN
---  :vc_schema_name := 'SYS' ;
---END ;
---/
---show error
---print :vc_schema_name
 set PageSize 40
 set LineSize 120
 column schema_name format a30
@@ -63,7 +56,7 @@ WITH v AS
   , 'ORDSYS', 'ORDDATA', 'ORDPLUGINS', 'ORDDATA'
   , 'MDSYS', 'MDDATA', 'SPATIAL_CSW_ADMIN_USR'
   , 'XDB', 'ANONYMOUS'
---  , 'HR' , 'PM', 'OE', 'SH',  'CO'
+  , 'HR' , 'PM', 'OE', 'SH',  'CO'
   )
 )
 -- 
@@ -91,16 +84,6 @@ set PageSize 40
 -- 
 -- Max. Length of an identifier is 30 chars.
 -- 
---variable vc_supported VARCHAR2(1) ;
---variable vc_schema_name VARCHAR2(30) ;
---BEGIN
---  :vc_supported := 'Y' ;
---  :vc_schema_name := 'SYS' ;
---END ;
---/
---show error
---print :vc_schema_name
-
 set PageSize 40
 set LineSize 220
 prompt 
@@ -159,7 +142,7 @@ WITH c AS
   , 'ORDSYS', 'ORDDATA', 'ORDPLUGINS', 'ORDDATA'
   , 'MDSYS', 'MDDATA', 'SPATIAL_CSW_ADMIN_USR'
   , 'XDB', 'ANONYMOUS'
---  , 'HR' , 'PM', 'OE', 'SH',  'CO'
+  , 'HR' , 'PM', 'OE', 'SH',  'CO'
   )
   GROUP BY c.b_supported, c.dat_type
   ORDER BY c.b_supported, c.dat_type 
@@ -206,7 +189,7 @@ WITH v AS
   , 'ORDSYS', 'ORDDATA', 'ORDPLUGINS', 'ORDDATA'
   , 'MDSYS', 'MDDATA', 'SPATIAL_CSW_ADMIN_USR'
   , 'XDB', 'ANONYMOUS'
---  , 'HR' , 'PM', 'OE', 'SH',  'CO'
+  , 'HR' , 'PM', 'OE', 'SH',  'CO'
   )
 )
 -- 
@@ -252,7 +235,7 @@ WITH s AS
   , 'ORDSYS', 'ORDDATA', 'ORDPLUGINS', 'ORDDATA'
   , 'MDSYS', 'MDDATA', 'SPATIAL_CSW_ADMIN_USR'
   , 'XDB', 'ANONYMOUS'
---  , 'HR' , 'PM', 'OE', 'SH',  'CO'
+  , 'HR' , 'PM', 'OE', 'SH',  'CO'
   )
   GROUP BY s.owner
   , s.type
@@ -272,16 +255,6 @@ set PageSize 40
 -- 
 -- Max. Length of an identifier is 30 chars.
 -- 
---variable vc_supported VARCHAR2(1) ;
---variable vc_schema_name VARCHAR2(30) ;
---BEGIN
---  :vc_supported := 'N' ;
---  :vc_schema_name := 'SYS' ;
---END ;
---/
---show error
---print :vc_schema_name
-
 set PageSize 40
 set LineSize 100
 prompt 
@@ -333,7 +306,7 @@ WITH c AS
   , 'ORDSYS', 'ORDDATA', 'ORDPLUGINS', 'ORDDATA'
   , 'MDSYS', 'MDDATA', 'SPATIAL_CSW_ADMIN_USR'
   , 'XDB', 'ANONYMOUS'
---  , 'HR' , 'PM', 'OE', 'SH',  'CO'
+  , 'HR' , 'PM', 'OE', 'SH',  'CO'
   )
   GROUP BY c.schema_name, c.obj_type, c.b_supported
 )
